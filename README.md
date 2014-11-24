@@ -29,4 +29,4 @@ syntax to fit into the stonith rules.
    `python  fence_fusion --ssh -a 192.168.100.1 --ssh -l racedo --identity-file /root/.ssh/id_rsa -n 00_0c_29_94_a2_36 --login-timeout=10`
 
 #### Testing directly with Pacemaker
-   On one of the hosts run: `kill -9 corosync`
+   On one of the hosts run: `killall -9 corosync`
