@@ -1,26 +1,32 @@
-stonith-fences
-==============
+# stonith-fences
 
-Pacemaker stonith fencing agents for vmware fusion.
+ Pacemaker stonith fencing agents for VMware Fusion.
 
-Installation instructions
-cp fence* /usr/sbin on all servers running stonith.
+## Installation instructions
+`cp fence* /usr/sbin` on all servers running stonith.
 
+## Pacemaker configuration example
 
-pacemaker configuration example
-
-primitive fusion-fencing stonith:fence_fusion \
-    params ipaddr="MAC_IP_REACHABLE_FROM_CLUSTER_HOSTS" login="MAC_USERNAME" passwd="MAC_PASSWORD" \
-    pcmk_host_list="box1.example.loc box2.example.loc" \
-    pcmk_host_map="box1.example.loc:00_0C_29_93_11_B5;box2.example.loc:00_0C_29_6E_5A_43" \
-    meta target-role="started"
+```bash
+pcs stonith create fence_with_fusion stonith:fence_fusion \
+ipaddr=192.168.100.1 \
+pcmk_host_map=controller1.vm.lab:00_0c_29_94_a2_36,controller2.vm.lab:00_0c_29_87_5f_a3,controller3.vm.lab:00_0c_29_81_19_cd \
+pcmk_host_list=controller1.vm.lab,controller2.vm.lab,controller3.vm.lab \
+login=racedo \
+identity-file=/root/.ssh/id_rsa \
+meta target-role="started" --force
 property stonith-enabled="true"
+```
 
-
-** Note
-   00_0C_29_6E_5A_43 is the mac address of any of the interfaces on one of the
-vms that will be killed via stonith.  We are just replacing : with _  in the
+**Note**
+   The MAC addresses are of any of the interfaces on one of the
+VMs that will be killed via stonith.  We are just replacing : with _ in the
 syntax to fit into the stonith rules.
 
-** Testing.
+## Testing
+#### Manually testing the fence agent with a preconfigured ssh-pair with the host and the VMs:
+
+   `python  fence_fusion --ssh -a 192.168.100.1 --ssh -l racedo --identity-file /root/.ssh/id_rsa -n 00_0c_29_94_a2_36 --login-timeout=10`
+
+#### Testing directly with Pacemaker 
    kill -9 the corosync process on one of the cluster nodes
