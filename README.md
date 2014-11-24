@@ -1,4 +1,4 @@
-# stonith-fences
+# Fence Agent for VMware Fusion
 
  Pacemaker stonith fencing agents for VMware Fusion.
 
@@ -24,7 +24,7 @@ VMs that will be killed via stonith.  We are just replacing : with _ in the
 syntax to fit into the stonith rules.
 
 ## Testing
-#### Manually testing the fence agent with a preconfigured ssh-pair with the host and the VMs:
+#### Manually testing the fence agent with a preconfigured ssh-pair with the host and the VMs
 
    `python  fence_fusion --ssh -a 192.168.100.1 --ssh -l racedo --identity-file /root/.ssh/id_rsa -n 00_0c_29_94_a2_36 --login-timeout=10`
 
