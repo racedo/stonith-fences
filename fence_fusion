@@ -2,7 +2,7 @@
 
 # The Following Agent Has Been Tested On:
 #
-# VMware Fusion 6.0.5 on Mac OS X 10.10.1 and Fence Agents 4.0.2 on RHEL 7
+# Vmware fusion 4.1.3 on MacOS X 10.7.4
 #
 
 import sys
@@ -12,12 +12,12 @@ sys.path.append("/usr/share/fence")
 from fencing import *
 
 #BEGIN_VERSION_GENERATION
-RELEASE_VERSION = "0.0.2"
-BUILD_DATE = "(built Sun 23 Nov 08:53:36 GMT 2014)"
+RELEASE_VERSION = "0.0.1"
+BUILD_DATE = "(built Fri Aug 10 11:20:18 UTC 2012)"
 REDHAT_COPYRIGHT = "Copyright (C) Eric Edgar"
 #END_VERSION_GENERATION
 
-# Returns an array with all the MACs of all the VMs that are powered on 
+# Returns an array with all the MACs of all the VMs that are powered on
 def get_outlets_status(conn, options):
     results = []
     mac_results = {}
@@ -84,7 +84,7 @@ def set_power_status(conn, options):
 
 
 def main():
-    device_opt = ["help", "version", "agent", "verbose", "debug", 
+    device_opt = ["help", "version", "agent", "verbose", "debug",
                   "action", "ipaddr", "login", "passwd", "passwd_script",
                   "secure", "identity_file", "port", "separator",
                   "inet4_only", "inet6_only", "ipport", "power_timeout",
