@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
-# The Following Agent Has Been Tested On:
+# The following agent has adapted from Eric Edgar's original fence agent by Ramon Acedo and has been tested on:
 #
-# Vmware fusion 4.1.3 on MacOS X 10.7.4
-#
+# VMware Fusion 6.0.5 on Mac OS X 10.10.1
 
 import sys
 import pexpect
