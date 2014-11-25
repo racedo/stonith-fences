@@ -1,6 +1,6 @@
 # Fence Agent for VMware Fusion
 
- This Pacemaker agent is a modified version of Eric Edgar's original fence agent by Ramon Acedo and has been tested on VMware Fusion 6.0.5 on Mac OS X 10.10.1 and RHEL 7 with Pacemaker 1.1.10
+ This Pacemaker stonith fence agent is a modified version of Eric Edgar's original fence agent by Ramon Acedo and has been tested on VMware Fusion 6.0.5 on Mac OS X 10.10.1 and RHEL 7 with Pacemaker 1.1.10
 
 ## Installation instructions
 `cp fence* /usr/sbin` on all servers running stonith.
