@@ -15,8 +15,9 @@ pcmk_host_list="controller1.vm.lab controller2.vm.lab controller3.vm.lab" \
 login=racedo \
 identity-file=/root/.ssh/id_rsa \
 meta target-role="started" --force
-property stonith-enabled="true"
 ```
+
+`property stonith-enabled="true"`
 
 **Note**
    The MAC addresses are of any of the interfaces on one of the
