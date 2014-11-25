@@ -17,7 +17,7 @@ BUILD_DATE = "(built Fri Aug 10 11:20:18 UTC 2012)"
 REDHAT_COPYRIGHT = "Copyright (C) Eric Edgar"
 #END_VERSION_GENERATION
 
-# Returns an array with all the MACs of all the VMs that are powered on
+# Returns an array with all the MACs of all the VMs that are powered on 
 def get_outlets_status(conn, options):
     results = []
     mac_results = {}
@@ -32,9 +32,10 @@ def get_outlets_status(conn, options):
     else:
         results = conn.before.splitlines()[3:-1]
         for line in results:
-            file, data = line.split(':', 1)
-            mac = data.split("= ")[1].strip("\"")
-            mac_results.setdefault(file, []).append(mac)
+            if "generatedAddress" in line:
+                file, data = line.split(':', 1)
+                mac = data.split("= ")[1].strip("\"")
+                mac_results.setdefault(file, []).append(mac)
 
     try:
         conn.sendline("/Applications/VMware\ Fusion.app/Contents/Library/vmrun list")
@@ -56,13 +57,13 @@ def get_outlets_status(conn, options):
 def get_power_status(conn, options):
 	outlets=get_outlets_status(conn,options)
 
-        return ((options["-n"].upper() in outlets) and "on" or "off")
+        return ((options["--plug"].upper() in outlets) and "on" or "off")
 
 
 def set_power_status(conn, options):
     try:
         data = '''IFS=$\'\\n\';for x in $(mdfind vmwarevm |grep ".vmwarevm$"); do IFS=$\'\\n\';find $x -name \*vmx -exec grep -H "Address " {} \; ;done|grep -i %s|uniq'''
-        conn.sendline(data.replace('%s', options['-n'].replace("_", ":").upper()))
+        conn.sendline(data.replace('%s', options['--plug'].replace("_", ":").upper()))
         conn.log_expect(options, options["--command-prompt"], int(options["--shell-timeout"]))
     except pexpect.EOF:
         fail(EC_CONNECTION_LOST)
@@ -70,25 +71,27 @@ def set_power_status(conn, options):
         fail(EC_TIMED_OUT)
     else:
         results = conn.before.splitlines()[3:]
+
         for line in results:
-            file, data = line.split(':', 1)
-            if options['-n'].replace("_", ":").upper() in data.upper():
-                try:
-                    conn.sendline("/Applications/VMware\ Fusion.app/Contents/Library/vmrun -T fusion %s" % (options["--action"] == "on" and "start '%s' gui" % file or "stop '%s' hard" % file))
-                    conn.log_expect(options, options["--command-prompt"], int(options["--shell-timeout"]))
-                    time.sleep(1)
-                except pexpect.EOF:
-                    fail(EC_CONNECTION_LOST)
-                except pexpect.TIMEOUT:
-                    fail(EC_TIMED_OUT)
+            if "generatedAddress" in line:
+                file, data = line.split(':', 1)
+                if options['--plug'].replace("_", ":").upper() in data.upper():
+                    try:
+                        conn.sendline("/Applications/VMware\ Fusion.app/Contents/Library/vmrun -T fusion %s" % (options["--action"] == "on" and "start '%s' gui" % file or "stop '%s' hard" % file))
+                        conn.log_expect(options, options["--command-prompt"], int(options["--shell-timeout"]))
+                        time.sleep(1)
+                    except pexpect.EOF:
+                        fail(EC_CONNECTION_LOST)
+                    except pexpect.TIMEOUT:
+                        fail(EC_TIMED_OUT)
 
 
 def main():
-    device_opt = ["help", "version", "agent", "verbose", "debug",
+    device_opt = ["help", "version", "agent", "verbose", "debug", 
                   "action", "ipaddr", "login", "passwd", "passwd_script",
                   "secure", "identity_file", "port", "separator",
                   "inet4_only", "inet6_only", "ipport", "power_timeout",
-                  "shell_timeout", "login_timeout", "power_wait"]
+                  "shell_timeout", "login_timeout", "power_wait" ]
 
     atexit.register(atexit_handler)
 
@@ -103,7 +106,7 @@ def main():
     if not "--action" in options:
         options["--action"] = "reboot"
 
-    options["ssh_options"] = "-t '/bin/bash -c \"PS1=\[EXPECT\]#\  /bin/bash --noprofile --norc\"'"
+    options["ssh_options"] = "-t '/bin/bash -c \"PS1=\[EXPECT\]$\  /bin/bash --noprofile --norc\"'"
 
     docs = {}
     docs["shortdesc"] = "Fence agent for vmware fusion"
