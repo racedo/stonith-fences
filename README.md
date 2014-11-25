@@ -31,6 +31,8 @@ syntax to fit into the stonith rules.
 #### Testing directly with Pacemaker
    On one of the hosts of the cluster run either of these commands: 
    `stonith_admin --reboot controller1.vm.lab`
+
    `pcs stonith fence  controller1.vm.lab`
+
    `killall -9 corosync`
 
