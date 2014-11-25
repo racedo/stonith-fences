@@ -20,9 +20,7 @@ meta target-role="started" --force
 `property stonith-enabled="true"`
 
 **Note**
-   The MAC addresses are of any of the interfaces on one of the
-VMs that will be killed via stonith.  We are just replacing : with _ in the
-syntax to fit into the stonith rules.
+The MAC addresses are from any of the NICs on the VMs that will be killed via stonith.  We are just replacing : with _ in the syntax to fit into the stonith rules.
 
 ## Testing
 #### Manually testing the fence agent with a preconfigured ssh-pair with the host and the VMs
