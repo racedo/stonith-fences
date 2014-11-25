@@ -11,7 +11,7 @@
 pcs stonith create fence_with_fusion fence_fusion \
 ipaddr=192.168.100.1 \
 pcmk_host_map="controller1.vm.lab:00_0C_29_94_A2_36;controller2.vm.lab:00_0C_29_87_5F_A3;controller3.vm.lab:00_0C_29_81_19_CD" \
-pcmk_host_list=controller1.vm.lab,controller2.vm.lab,controller3.vm.lab \
+pcmk_host_list="controller1.vm.lab controller2.vm.lab controller3.vm.lab" \
 login=racedo \
 identity-file=/root/.ssh/id_rsa \
 meta target-role="started" --force
