@@ -17,7 +17,7 @@ identity-file=/root/.ssh/id_rsa \
 meta target-role="started" --force
 ```
 
-`property stonith-enabled="true"`
+`pcs property stonith-enabled="true"`
 
 **Note**
 The MAC addresses are from any of the NICs on the VMs that will be killed via stonith.  We are just replacing : with _ in the syntax to fit into the stonith rules.
