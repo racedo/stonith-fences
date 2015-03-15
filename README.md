@@ -9,11 +9,12 @@
 
 ```bash
 pcs stonith create fence_with_fusion fence_fusion \
-ipaddr=192.168.100.1 \
-pcmk_host_map="controller1.vm.lab:00_0C_29_94_A2_36;controller2.vm.lab:00_0C_29_87_5F_A3;controller3.vm.lab:00_0C_29_81_19_CD" \
-pcmk_host_list="controller1.vm.lab controller2.vm.lab controller3.vm.lab" \
+ipaddr=10.0.0.1 \
+pcmk_host_map="pcmk-controller1:00_0c_29_ee_ed_78;pcmk-controller2:00_0c_29_7a_97_f2" \
+pcmk_host_list="pcmk-controller1 pcmk-controller2" \
 login=racedo \
-identity-file=/root/.ssh/id_rsa \
+identity_file=/root/.ssh/id_rsa \
+secure=1 \
 meta target-role="started" --force
 ```
 
@@ -25,7 +26,7 @@ The MAC addresses are from any of the NICs on the VMs that will be killed via st
 ## Testing
 #### Manually testing the fence agent with a preconfigured ssh-pair with the host and the VMs
 
-   `python /usr/sbin/fence_fusion --ssh --ip 192.168.100.1 --ssh -l racedo --identity-file /root/.ssh/id_rsa --plug 00_0C_29_94_A2_36 --login-timeout=10 --action reboot`
+   `python /usr/sbin/fence_fusion --ip 192.168.100.1 --ssh -l racedo --identity-file /root/.ssh/id_rsa --plug 00_0C_29_94_A2_36 --login-timeout=10 --action reboot`
 
 #### Testing directly with Pacemaker
    On one of the hosts of the cluster run either of these commands: 
