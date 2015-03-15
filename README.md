@@ -31,9 +31,9 @@ The MAC addresses are from any of the NICs on the VMs that will be killed via st
 #### Testing directly with Pacemaker
    On one of the hosts of the cluster run either of these commands: 
 
-   `stonith_admin --reboot controller1.vm.lab`
+   `stonith_admin --reboot pcmk-controller1`
 
-   `pcs stonith fence  controller1.vm.lab`
+   `pcs stonith fence  pcmk-controller1`
 
    `killall -9 corosync`
 
